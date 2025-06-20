@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY PORTFOLIO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #fcdf9f;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            height: 100vh;
+            overflow: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><polygon points="0,0 0,13 4,9 7,12 9,10 6,7 10,3" fill="%23000" stroke="%23fff" stroke-width="1"/></svg>'), auto;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #00449e, #8a2be2);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: sparkle 3s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1) rotate(0deg);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+        
+        .folder {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            border: 3px solid #00449e;
+            border-radius: 8px;
+            box-shadow: 3px 3px 0px rgba(0, 68, 158, 0.3);
+        }
+        
+        .folder::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 8px;
+            width: 25px;
+            height: 8px;
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            border: 3px solid #00449e;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .heart-bubble {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            width: 120px;
+            height: 80px;
+            background: #ff69b4;
+            border: 2px solid #00449e;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 0px rgba(0, 68, 158, 0.3);
+        }
+        
+        .heart-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #ff69b4;
+            border: 2px solid #00449e;
+        }
+        
+        .heart {
+            width: 30px;
+            height: 30px;
+            background: #ea5f39;
+            position: relative;
+            transform: rotate(-45deg);
+        }
+        
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            background: #ea5f39;
+            border-radius: 50%;
+        }
+        
+        .heart::before {
+            top: -17px;
+            left: 0;
+        }
+        
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+        
+        .window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            background: white;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            box-shadow: 8px 8px 0px rgba(0, 68, 158, 0.3);
+            opacity: 0;
+            animation: slideIn 1s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        .window-header {
+            background: #ea5f39;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #00449e;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .control-btn {
+            width: 25px;
+            height: 25px;
+            border: 2px solid #00449e;
+            background: #ff8c00;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #00449e;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: #ffa500;
+            transform: scale(1.1);
+        }
+        
+        .window-content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: 42px;
+            color: #00449e;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0px rgba(234, 95, 57, 0.3);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'VT323', monospace;
+            background: white;
+            color: #00449e;
+            border: 3px solid #00449e;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 3px 3px 0px rgba(0, 68, 158, 0.3);
+        }
+        
+        .btn:hover {
+            background: #00449e;
+            color: white;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px rgba(0, 68, 158, 0.5);
+        }
+        
+        .btn:active {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px rgba(0, 68, 158, 0.3);
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fcdf9f;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-container {
+            background: white;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 8px 8px 0px rgba(0, 68, 158, 0.3);
+            text-align: center;
+        }
+        
+        .loading-text {
+            font-size: 36px;
+            color: #00449e;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        
+        .progress-bar {
+            width: 400px;
+            height: 30px;
+            border: 3px solid #00449e;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #ff8c00;
+            width: 0%;
+            transition: width 0.1s ease-out;
+            position: relative;
+        }
+        
+        .progress-segment {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: calc(100% / 12);
+            border-right: 2px solid #00449e;
+        }
+        
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #00449e;
+            z-index: 999;
+            transform: translateX(-100%);
+        }
+        
+        .page-transition.active {
+            animation: slideTransition 0.8s ease-in-out;
+        }
+        
+        @keyframes slideTransition {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .show {
+            display: flex !important;
+        }
+
+        /* 홈페이지 (데스크탑) 스타일 */
+        .explorer-window {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 400px;
+            height: 450px;
+            background: white;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            box-shadow: 6px 6px 0px rgba(0, 68, 158, 0.3);
+        }
+
+        .window-title {
+            color: #00449e;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .explorer-menu {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-bottom: 2px solid #00449e;
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu-item {
+            color: #00449e;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 2px 5px;
+        }
+
+        .menu-item:hover {
+            background: #00449e;
+            color: white;
+        }
+
+        .explorer-content {
+            padding: 20px;
+            height: 280px;
+            overflow-y: auto;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .file-item:hover {
+            background: rgba(0, 68, 158, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .file-icon {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #00449e;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .file-icon.notepad {
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+        }
+
+        .file-icon.notepad::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 3px;
+            background: #ff8c00;
+            border-radius: 1px;
+        }
+
+        .file-icon.notepad::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: repeating-linear-gradient(
+                0deg,
+                #00449e 0px,
+                #00449e 1px,
+                transparent 1px,
+                transparent 6px
+            );
+        }
+
+        .file-icon.computer {
+            background: linear-gradient(135deg, #00449e, #0066cc);
+        }
+
+        .file-icon.computer::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 25px;
+            background: #87ceeb;
+            border: 1px solid #00449e;
+        }
+
+        .file-icon.computer::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 20px;
+            right: 20px;
+            height: 8px;
+            background: #00449e;
+            border-radius: 2px;
+        }
+
+        .file-icon.trash {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+        }
+
+        .file-icon.trash::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            height: 30px;
+            background: #fff;
+            border: 2px solid #00449e;
+        }
+
+        .file-icon.trash::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 18px;
+            right: 18px;
+            height: 4px;
+            background: #00449e;
+        }
+
+        .file-name {
+            color: #00449e;
+            font-size: 14px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .explorer-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #f0f0f0;
+            border-top: 2px solid #00449e;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .nav-btn {
+            width: 30px;
+            height: 30px;
+            background: white;
+            border: 2px solid #00449e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #00449e;
+        }
+
+        .nav-btn:hover {
+            background: #00449e;
+            color: white;
+        }
+
+        .todo-window {
+            position: absolute;
+            top: 100px;
+            right: 50px;
+            width: 300px;
+            background: white;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            box-shadow: 6px 6px 0px rgba(0, 68, 158, 0.3);
+        }
+
+        .todo-content {
+            padding: 20px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .todo-bullet {
+            color: #ff8c00;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .todo-text {
+            color: #00449e;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .todo-buttons {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .todo-btn {
+            flex: 1;
+            padding: 8px 15px;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            background: white;
+            color: #00449e;
+            border: 3px solid #00449e;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .todo-btn:hover {
+            background: #00449e;
+            color: white;
+        }
+
+        .todo-arrow {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00449e;
+            font-size: 20px;
+            background: white;
+            padding: 0 5px;
+        }
+
+        .search-window {
+            position: absolute;
+            bottom: 100px;
+            right: 50px;
+            width: 400px;
+            height: 50px;
+            background: white;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            box-shadow: 6px 6px 0px rgba(0, 68, 158, 0.3);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .search-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff69b4;
+            border: 2px solid #00449e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            height: 30px;
+            border: none;
+            outline: none;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            color: #00449e;
+            background: transparent;
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 배경 장식 요소들 -->
+    <div class="sparkle" style="top: 10%; left: 15%;"></div>
+    <div class="sparkle" style="top: 20%; right: 20%; animation-delay: 1s;"></div>
+    <div class="sparkle" style="bottom: 30%; left: 10%; animation-delay: 2s;"></div>
+    <div class="sparkle" style="bottom: 10%; right: 15%; animation-delay: 1.5s;"></div>
+    <div class="sparkle" style="top: 60%; right: 40%; animation-delay: 0.5s;"></div>
+    
+    <div class="folder" style="top: 10%; left: 10%;"></div>
+    <div class="folder" style="top: 10%; left: 25%;"></div>
+    <div class="folder" style="top: 25%; left: 10%;"></div>
+    
+    <div class="heart-bubble">
+        <div class="heart"></div>
+    </div>
+    
+    <!-- 메인 페이지 -->
+    <div id="mainPage" class="window">
+        <div class="window-header">
+            <div></div>
+            <div class="window-controls">
+                <div class="control-btn">○</div>
+                <div class="control-btn">−</div>
+                <div class="control-btn">×</div>
+            </div>
+        </div>
+        <div class="window-content">
+            <h1 class="title">MY PORTFOLIO</h1>
+            <div class="buttons">
+                <button class="btn" id="yesBtn">Yes</button>
+                <button class="btn" id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 로딩 페이지 -->
+    <div id="loadingPage" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-text" id="loadingText">LOADING.</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-segment" style="left: 8.33%;"></div>
+                <div class="progress-segment" style="left: 16.66%;"></div>
+                <div class="progress-segment" style="left: 25%;"></div>
+                <div class="progress-segment" style="left: 33.33%;"></div>
+                <div class="progress-segment" style="left: 41.66%;"></div>
+                <div class="progress-segment" style="left: 50%;"></div>
+                <div class="progress-segment" style="left: 58.33%;"></div>
+                <div class="progress-segment" style="left: 66.66%;"></div>
+                <div class="progress-segment" style="left: 75%;"></div>
+                <div class="progress-segment" style="left: 83.33%;"></div>
+                <div class="progress-segment" style="left: 91.66%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 홈 페이지 (데스크탑) -->
+    <div id="homePage" class="loading-screen hidden">
+        <!-- Explorer 창 -->
+        <div class="explorer-window">
+            <div class="window-header">
+                <div class="window-title">Explorer</div>
+                <div class="window-controls">
+                    <div class="control-btn">○</div>
+                    <div class="control-btn">−</div>
+                    <div class="control-btn">×</div>
+                </div>
+            </div>
+            <div class="explorer-menu">
+                <span class="menu-item">Open</span>
+                <span class="menu-item">File</span>
+                <span class="menu-item">Help</span>
+            </div>
+            <div class="explorer-content">
+                <div class="file-grid">
+                    <div class="file-item" data-page="project1">
+                        <div class="file-icon notepad"></div>
+                        <div class="file-name">Project1</div>
+                    </div>
+                    <div class="file-item" data-page="project2">
+                        <div class="file-icon notepad"></div>
+                        <div class="file-name">Project2</div>
+                    </div>
+                    <div class="file-item" data-page="profile">
+                        <div class="file-icon computer"></div>
+                        <div class="file-name">Profile</div>
+                    </div>
+                    <div class="file-item" data-page="trash">
+                        <div class="file-icon trash"></div>
+                        <div class="file-name">Trash</div>
+                    </div>
+                </div>
+            </div>
+            <div class="explorer-footer">
+                <div class="nav-btn">←</div>
+                <div class="nav-btn">→</div>
+                <div class="nav-btn">↑</div>
+                <div class="nav-btn">↓</div>
+            </div>
+        </div>
+
+        <!-- To Do List 창 -->
+        <div class="todo-window">
+            <div class="window-header">
+                <div class="window-title">To Do List</div>
+                <div class="window-controls">
+                    <div class="control-btn">−</div>
+                    <div class="control-btn">×</div>
+                </div>
+            </div>
+            <div class="todo-content">
+                <div class="todo-item">
+                    <div class="todo-bullet">●</div>
+                    <div class="todo-text">STUDYING</div>
+                </div>
+                <div class="todo-item">
+                    <div class="todo-bullet">●</div>
+                    <div class="todo-text">CLEANING</div>
+                </div>
+                <div class="todo-item">
+                    <div class="todo-bullet">●</div>
+                    <div class="todo-text">COOKING</div>
+                </div>
+                <div class="todo-item">
+                    <div class="todo-bullet">●</div>
+                    <div class="todo-text">DRAWING</div>
+                </div>
+            </div>
+            <div class="todo-buttons">
+                <button class="todo-btn">DID IT!</button>
+                <button class="todo-btn">NOT YET..</button>
+            </div>
+        </div>
+
+        <!-- 검색창 -->
+        <div class="search-window">
+            <div class="search-icon">🔍</div>
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+    </div>
+    
+    <!-- 페이지 전환 효과 -->
+    <div class="page-transition" id="pageTransition"></div>
+    
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainPage = document.getElementById('mainPage');
+        const loadingPage = document.getElementById('loadingPage');
+        const homePage = document.getElementById('homePage');
+        const pageTransition = document.getElementById('pageTransition');
+        const loadingText = document.getElementById('loadingText');
+        const progressFill = document.getElementById('progressFill');
+        
+        let loadingDots = 1;
+        let progress = 0;
+        
+        // Yes 버튼 클릭 시 로딩 페이지로 전환
+        yesBtn.addEventListener('click', () => {
+            // 페이지 전환 애니메이션 시작
+            pageTransition.classList.add('active');
+            
+            setTimeout(() => {
+                mainPage.classList.add('hidden');
+                loadingPage.classList.add('show');
+                startLoading();
+                pageTransition.classList.remove('active');
+            }, 400);
+        });
+        
+        // No 버튼 클릭 시 간단한 반응
+        noBtn.addEventListener('click', () => {
+            noBtn.style.transform = 'scale(0.95)';
+            noBtn.style.background = '#ea5f39';
+            noBtn.style.color = 'white';
+            
+            setTimeout(() => {
+                noBtn.style.transform = '';
+                noBtn.style.background = '';
+                noBtn.style.color = '';
+            }, 200);
+        });
+        
+        // 로딩 애니메이션 시작
+        function startLoading() {
+            const loadingInterval = setInterval(() => {
+                loadingDots = (loadingDots % 3) + 1;
+                loadingText.textContent = 'LOADING' + '.'.repeat(loadingDots);
+            }, 500);
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15 + 5;
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    clearInterval(loadingInterval);
+                    
+                    setTimeout(() => {
+                        // 홈페이지로 전환
+                        pageTransition.classList.add('active');
+                        
+                        setTimeout(() => {
+                            loadingPage.classList.remove('show');
+                            loadingPage.classList.add('hidden');
+                            homePage.classList.remove('hidden');
+                            homePage.classList.add('show');
+                            pageTransition.classList.remove('active');
+                        }, 400);
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // 파일 아이템 클릭 이벤트
+        document.addEventListener('click', (e) => {
+            const fileItem = e.target.closest('.file-item');
+            if (fileItem) {
+                const pageType = fileItem.dataset.page;
+                
+                // 클릭 효과
+                fileItem.style.transform = 'scale(0.95)';
+                fileItem.style.background = 'rgba(0, 68, 158, 0.2)';
+                
+                setTimeout(() => {
+                    fileItem.style.transform = '';
+                    fileItem.style.background = '';
+                    
+                    // 페이지 전환
+                    switch(pageType) {
+                        case 'project1':
+                            document.body.style.opacity = '0';
+                            setTimeout(() => {
+                                window.location.href = 'project1.html';
+                            }, 300);
+                            break;
+                        case 'project2':
+                            document.body.style.opacity = '0';
+                            setTimeout(() => {
+                                window.location.href = 'project2.html';
+                            }, 300);
+                            break;
+                        case 'profile':
+                            document.body.style.opacity = '0';
+                            setTimeout(() => {
+                                window.location.href = 'profile.html';
+                            }, 300);
+                            break;
+                        case 'trash':
+                            alert('휴지통입니다!');
+                            break;
+                    }
+                }, 200);
+            }
+        });
+
+        // To Do 버튼 이벤트
+        document.querySelectorAll('.todo-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // 창 컨트롤 버튼 이벤트
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // 커서 변경 (링크나 버튼 위에서)
+        document.querySelectorAll('.btn, .control-btn').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                document.body.style.cursor = 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><polygon points="0,0 0,13 4,9 7,12 9,10 6,7 10,3" fill="%23ea5f39" stroke="%23000" stroke-width="1"/></svg>\'), pointer';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                document.body.style.cursor = 'url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><polygon points="0,0 0,13 4,9 7,12 9,10 6,7 10,3" fill="%23000" stroke="%23fff" stroke-width="1"/></svg>\'), auto';
+            });
+        });
+    </script>
+    
+</body>
+</html>

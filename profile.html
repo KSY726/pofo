@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Ku Hyeonseo</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #fcdf9f;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 배경 패턴 */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* 뒤로가기 버튼 */
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: none;
+            border: none;
+            font-size: 48px;
+            color: #00449e;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* 장식 요소들 */
+        .star {
+            position: absolute;
+            color: #00449e;
+            font-size: 24px;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        .star1 { top: 10%; right: 15%; animation-delay: 0s; }
+        .star2 { top: 70%; left: 10%; animation-delay: 0.5s; }
+        .star3 { bottom: 20%; right: 20%; animation-delay: 1s; }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* 프로필 창 */
+        .profile-window {
+            background-color: #ea5f39;
+            border: 4px solid #00449e;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            margin: 100px auto;
+            position: relative;
+            box-shadow: 8px 8px 0px rgba(0, 68, 158, 0.3);
+        }
+
+        /* 윈도우 헤더 */
+        .window-header {
+            background-color: #ea5f39;
+            padding: 15px 20px;
+            border-bottom: 3px solid #00449e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-title {
+            font-size: 28px;
+            color: #00449e;
+            font-weight: bold;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 25px;
+            height: 25px;
+            border: 2px solid #00449e;
+            background-color: #ea5f39;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #00449e;
+        }
+
+        /* 프로필 내용 */
+        .profile-content {
+            background-color: white;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* 왼쪽 프로필 이미지 섹션 */
+        .profile-image-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border: 4px solid #00449e;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ea5f39, #fcdf9f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .profile-image::before {
+            content: '👤';
+            font-size: 60px;
+            color: #00449e;
+        }
+
+        .profile-name {
+            background-color: #fcdf9f;
+            border: 3px solid #00449e;
+            padding: 10px 20px;
+            font-size: 24px;
+            color: #00449e;
+            border-radius: 5px;
+        }
+
+        .profile-id {
+            background-color: #fcdf9f;
+            border: 3px solid #00449e;
+            padding: 8px 16px;
+            font-size: 20px;
+            color: #00449e;
+            border-radius: 5px;
+        }
+
+        /* 오른쪽 정보 섹션 */
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 22px;
+        }
+
+        .info-label {
+            color: #00449e;
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .info-value {
+            color: #00449e;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-row.skills-row {
+            align-items: flex-start;
+        }
+
+        /* 하단 버튼들 */
+        .profile-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .profile-btn {
+            background-color: white;
+            border: 3px solid #00449e;
+            padding: 15px 40px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: #00449e;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .profile-btn:hover {
+            background-color: #00449e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+            
+            .profile-window {
+                margin: 50px auto;
+                width: 95%;
+            }
+            
+            .skills-list {
+                margin-left: 0;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .profile-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 뒤로가기 버튼 -->
+    <button class="back-button" onclick="goBack()">◀</button>
+
+    <!-- 장식 별들 -->
+    <div class="star star1">✦</div>
+    <div class="star star2">✦</div>
+    <div class="star star3">✦</div>
+
+    <!-- 프로필 창 -->
+    <div class="profile-window">
+        <!-- 윈도우 헤더 -->
+        <div class="window-header">
+            <div class="window-title">PROFILE</div>
+            <div class="window-controls">
+                <div class="control-btn">−</div>
+                <div class="control-btn">✕</div>
+            </div>
+        </div>
+
+        <!-- 프로필 내용 -->
+        <div class="profile-content">
+            <!-- 왼쪽: 프로필 이미지 -->
+            <div class="profile-image-section">
+                <div class="profile-image"></div>
+                <div class="profile-name">👤 KU HYEONSEO</div>
+                <div class="profile-id">🔒 2022981001</div>
+            </div>
+
+            <!-- 오른쪽: 프로필 정보 -->
+            <div class="profile-info">
+                <div class="info-row">
+                    <span class="info-label">NUMBER:</span>
+                    <span class="info-value">010-5954-XXXX</span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">EMAIL:</span>
+                    <span class="info-value">syku0903@gamil.com</span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">UNIV:</span>
+                    <span class="info-value">KYUNGSUNG UNIV.</span>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">GRADE:</span>
+                    <span class="info-value">3rd</span>
+                </div>
+                
+                <div class="info-row skills-row">
+                    <span class="info-label">SKILL:</span>
+                    <div class="skills-list">
+                        <div class="info-value">ADOBE PREMIERE PRO</div>
+                        <div class="info-value">ADOBE AFTER EFFECT</div>
+                        <div class="info-value">ADOBE PHOTOSHOP</div>
+                        <div class="info-value">ADOBE ILLUSTRATOR</div>
+                    </div>
+                </div>
+
+                <!-- 하단 버튼들 -->
+                <div class="profile-buttons">
+                    <button class="profile-btn" onclick="editProfile()">EDIT</button>
+                    <button class="profile-btn" onclick="saveProfile()">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            // index.html로 돌아가기 (실제 파일이 있다면)
+            window.history.back();
+            // 또는 특정 페이지로 이동하려면:
+            // window.location.href = 'index.html';
+        }
+
+        function editProfile() {
+            alert('편집 기능은 준비 중입니다!');
+        }
+
+        function saveProfile() {
+            alert('저장되었습니다!');
+        }
+
+        // 키보드 ESC로 뒤로가기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html>
